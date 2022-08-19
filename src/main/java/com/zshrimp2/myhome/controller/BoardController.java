@@ -26,7 +26,7 @@ public class BoardController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        List<Board> boards = boardRepository.findAll();
+        List<Board> boards = boardRepository.findAllByOrderByIdDesc();
         model.addAttribute("boards", boards);
         return "board/list";
     }
