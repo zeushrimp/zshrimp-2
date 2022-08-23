@@ -4,6 +4,10 @@ import com.zshrimp2.myhome.model.Board;
 import com.zshrimp2.myhome.repository.BoardRepository;
 import com.zshrimp2.myhome.validation.BoardValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,8 +29,15 @@ public class BoardController {
     private BoardValidator boardValidator;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        List<Board> boards = boardRepository.findAllByOrderByIdDesc();
+    public String list(Model model, @PageableDefault(size = 2) Pageable pageable,
+                       @RequestParam(required = false,defaultValue = "") String searchText) {
+//        Page<Board> boards = boardRepository.findAll(pageable);
+        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
+        int startPage =1;
+        int endPage =boards.getTotalPages();
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         model.addAttribute("boards", boards);
         return "board/list";
     }
@@ -37,7 +48,7 @@ public class BoardController {
             model.addAttribute("board", new Board());
         } else {
             Board board = boardRepository.findById(id).orElse(null);
-            model.addAttribute("board",board);
+            model.addAttribute("board", board);
         }
         return "board/form";
     }
@@ -45,8 +56,8 @@ public class BoardController {
     @PostMapping("/form")
     public String form(@Validated Board board, BindingResult bindingResult) {
 
-        boardValidator.validate(board,bindingResult);
-        if(bindingResult.hasErrors()){
+        boardValidator.validate(board, bindingResult);
+        if (bindingResult.hasErrors()) {
 
             return "board/form";
         }
