@@ -1,6 +1,8 @@
 package com.zshrimp2.myhome.controller;
 
 
+import com.zshrimp2.myhome.model.User;
+import com.zshrimp2.myhome.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/account")
 public class AccountController {
 
-/*    @Autowired
-    private UserService userService;*/
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/login")
     public String login() {
         return "account/login";
     }
-/*
+
     @GetMapping("/register")
     public String register() {
         return "account/register";
@@ -29,5 +31,5 @@ public class AccountController {
     public String register(User user) {
         userService.save(user);
         return "redirect:/";
-    }*/
+    }
 }
