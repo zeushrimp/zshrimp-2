@@ -1,13 +1,15 @@
 package com.zshrimp2.myhome.controller;
 
+import com.querydsl.core.types.Predicate;
+import com.zshrimp2.myhome.model.Board;
 import com.zshrimp2.myhome.model.User;
 import com.zshrimp2.myhome.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
-
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api")
@@ -17,7 +19,7 @@ class UserApiController {
     @Autowired
     private UserRepository repository;
 
-    @GetMapping("/users")
+/*    @GetMapping("/users")
     Iterable<User> all(@RequestParam(required = false) String method, @RequestParam(required = false) String text) {
         Iterable<User> users = null;
         if("query".equals(method)) {
@@ -25,9 +27,9 @@ class UserApiController {
         } else if("nativeQuery".equals(method)) {
             users = repository.findByUsernameNativeQuery(text);
         } else if("querydsl".equals(method)) {
-            QUser user = QUser.user;
+*//*            QUser user = QUser.user;
             Predicate predicate = user.username.contains(text);
-            users = repository.findAll(predicate);
+            users = repository.findAll(predicate);*//*
         } else if("querydslCustom".equals(method)) {
             users = repository.findByUsernameCustom(text);
         } else if("jdbc".equals(method)) {
@@ -36,7 +38,7 @@ class UserApiController {
             users = repository.findAll();
         }
         return users;
-    }
+    }*/
 
     @PostMapping("/users")
     User newUser(@RequestBody User newUser) {
